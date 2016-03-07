@@ -566,6 +566,7 @@ body {
 .wrapper {
   clear: both;
   height: auto;
+  overflow: hidden;
   position: relative; }
 
 /* start main content styles */
