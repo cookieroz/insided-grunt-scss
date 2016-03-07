@@ -14,143 +14,6 @@
 //  if clicked on
 //  
 //  function to remove all tags
-//  
-
-
-
-// add span to dropdown list
-function addSpan(txt, elem) {
-  $(txt).prependTo(elem);
-}
-
-// create inner dropdown menu
-function createDropdownLi(liId, liText) {
-  liText = liText || liId;
-  var li = $('<li/>');
-  var liLink = $('<a/>')
-      .attr('id', 'menu--'+liId)
-      .text(liText);
-  liLink.appendTo(li);
-  return li;
-}
-
-// find a way to connect these two
-
-// create dropdown ul
-function addDropDown(el, items) {
-
-  var div = $('<div/>')
-      .addClass('dropdown gradient-gray-bg');
-  var span = $('<span>Choose:</span>');
-  var list = $('<ul/>')
-      .addClass('dropdown__menu');
-  //var testLi = $('<li><a href="#">before</a></li>');
-  $.each(items, function(i){
-    createDropdownLi(this).appendTo(list);
-  });
-
-  //testLi.appendTo(list);
-  list.appendTo(div);
-  span.appendTo(div);
-
-  div.appendTo(el);
-  //console.log(el);
-}
-
-// create check all links
-// for dropdown checkboxes
-function ddCheckAll() {
-  var divCheck = $('<div/>')
-      .addClass('dd-check-links');
-  var checkLink = $('<a/>')
-      .attr('id', 'dd-check-all')
-      .text('Check all').appendTo(divCheck);
-  var uncheckLink = $('<a/>')
-      .attr('id', 'dd-uncheck-all')
-      .text('Uncheck all').appendTo(divCheck);
-  return divCheck;
-}
-
-// create actual checkbox
-function ddCheckbox(group, check) {
-  var divCheckbox = $('<div/>')
-      .addClass('group__checkbox');
-  var chkbox = $('<input type="checkbox">')
-      .attr('id', 'group'+group+'__checkbox-'+check)
-      .appendTo(divCheckbox);
-  var label = $('<label/>')
-      .attr('for', 'group'+group+'__checkbox-'+check)
-      .text('Option #'+check+'for group'+group)
-      .appendTo(divCheckbox);
-  return divCheckbox;
-}
-
-// create checkboxes group
-function ddCheckGroup(num) {
-  var divGroup = $('<div/>')
-      .addClass('dd-checkboxes__group');
-  var pTag = $('<p/>')
-      .text('Group '+ num)
-      .appendTo(divGroup);
-
-  // loop through 3 groups
-  for (var i=1; i<4; i++) {
-    ddCheckbox(num, [i]).appendTo(divGroup);
-  }
-
-  return divGroup;
-}
-
-// create dropdown checkboxes
-// for usergroup
-function addDdCheckboxes(el) {
-  var div = $('<div/>')
-      .addClass('dropdown dropdown--user-options gradient-gray-bg');
-  var wrap = $('<div/>')
-      .addClass('dd-checkboxes');
-  var span = $('<span>Choose:</span>'); // refactor later
-  var list = $('<ul/>')
-      .addClass('dropdown__menu');
-  var li = $('<li/>')
-      .addClass('li-checkboxes');
-
-  ddCheckAll().appendTo(wrap);
-  // loop through 3 groups
-  for (var i=1; i<4; i++) {
-    ddCheckGroup([i]).appendTo(wrap);
-  }
-  wrap.appendTo(li);
-  li.appendTo(list);
-  list.appendTo(div);
-  span.appendTo(div);
-
-  div.appendTo(el);
-}
-
-// dropdown for calendar
-function calendarDropdown(el) {
-  var div = $('<div/>')
-      .addClass('dropdown gradient-gray-bg');
-  var span = $('<span>Choose date:</span>'); // refactor later
-  var list = $('<ul/>')
-      .addClass('dropdown__menu');
-  var li = $('<li/>');
-  var datepicker = $('<div/>')
-      .addClass('datepicker-here')
-      .attr('data-language', 'en');
-
-  datepicker.appendTo(li);
-  li.appendTo(list);
-  span.appendTo(div);
-  list.appendTo(div);
-
-  div.appendTo(el);
-  $('.datepicker-here').datepicker({
-    onSelect: function onSelect(fd) {
-    span.text(fd);
-  }
-  });
-}
 
 // create remove btn
 function addRemoveBtn(dd) {
@@ -190,16 +53,6 @@ function createRow(num) {
   return row;
 }
 
-// add row when button clicked
-function addRow() {
-  var i = 1;
-  $('.advanced-search').on('click','button.btn--green' , function() {
-    createRow(i).appendTo('.advanced-search__select-area');
-    i++;
-    //return false;
-  });
-}
-
 // remove sibling dropdowns 
 function removeSiblings(rs) {
     rs.siblings().remove();
@@ -233,50 +86,7 @@ function addCatBtn(txt, el) {
 function removeCatBtn(el) {
   $('.content').on('click','.categories-wrap button' , function() {
     $(this).parent().remove();
-    //console.log($(this).parents(':eq(5)'));
-    //.closest(el)
-    //el.parents(':eq(1)').remove();
   });
-}
-
-// remove all category buttons
-// and rows
-function removeRowsBtns() {
-  $('.content').on('click','#remove-all' , function() {
-    $('.content').find('.categories-wrap li').remove();
-    $('.content').find('.advanced-search__select-row').remove();
-  });
-}
-
-// function to decide which 
-// dropdown to create
-function whichDropdown(ddId, elem, rm) {
-  var chosenDropdown;
-  switch (ddId) {
-    case 'reg-date':
-    case 'menu--reg-date':
-      var whenDateArr = ['before', 'after', 'on'];
-      removeSiblings(rm);
-      addDropDown(elem, whenDateArr);
-      console.log(rm);
-      break;
-    case 'usergroup':
-    case 'menu--usergroup':
-      removeSiblings(rm);
-      addDdCheckboxes(elem);
-      addRemoveBtn(elem);
-      removeRow(elem);
-      addCatBtn('User', elem);
-      removeCatBtn(elem);
-      break;
-    case 'menu--before':
-    case 'menu--after':
-    case 'menu--on':
-      calendarDropdown(elem);
-      addRemoveBtn(elem);
-      removeRow(elem);
-      break;
-  }
 }
 
 
@@ -307,19 +117,6 @@ function unlessNoneChecked(ele, removeEl) {
   }
 }
 
-$('.content').on('click','#dd-check-all', function(e) {
-  //e.preventDefault();
-  console.log('check');
-  $(".dd-checkboxes__group input:checkbox").prop('checked', true);
-});
-
-$('.content').on('click','#dd-uncheck-all', function(e) {
-  //e.preventDefault();
-  console.log('uncheck');
-  $(".dd-checkboxes__group input:checkbox").prop('checked', false);
-});
-
-
 // checkmark all user results
 // add highlight class
 $("#search-results__checkbox-all").on('change',function () {
@@ -343,14 +140,15 @@ $(".search-results-td input:checkbox").on('change',function () {
 // function for using ul as dropdowns
 $(function() {
   var dd = new DropDown($('.content'));
-  addRow();
-  removeRowsBtns();
+  var ddCh = new DdCheckboxes($('.content'));
 });
 
 function DropDown(el) {
   this.dd = el;
   this.initEvents();
   this.liClick();
+  //this.addRow();
+  this.removeRowsBtns();
 }
 DropDown.prototype = {
   initEvents : function() {
@@ -361,16 +159,12 @@ DropDown.prototype = {
       event.stopPropagation();
     }); 
   },
-  logTest: function(){
-    console.log('test');
-  },
   liClick: function() {
     // function to change span text when dropdown
     // li is clicked
     var obj = this;
 
-    obj.logTest();
-    obj.dd.on ('click', '.dropdown li', function(e) {
+    obj.dd.on('click', '.dropdown li', function(e) {
       var li = $(this);
       var div = li.parents(':eq(1)');
       var row = li.parents(':eq(3)').find('.select-row-wrap');
@@ -380,18 +174,264 @@ DropDown.prototype = {
 
       if (li.is('.li-checkboxes')) {
         console.log(li.children().is('.dd-checkboxes'));
-        //li.unbind(e);
         e.stopPropagation();
       } else {
         e.preventDefault();
         span.text(liText);
-        //addDropDown(row, linkId);
-        whichDropdown(linkId, row, div);
+        obj.whichDropdown(linkId, row, div);
       }
+    });
+  },
+  whichDropdown: function(ddId, elem, rm) {
+    // function to decide which 
+    // dropdown to create
+    var obj = this;
 
-      console.log(linkId);
-      console.log(li.is('.li-checkboxes'));
-      
+    switch (ddId) {
+      case 'reg-date':
+      case 'menu--reg-date':
+        var whenDateArr = ['before', 'after', 'on'];
+        removeSiblings(rm);
+        obj.addDropDown(elem, whenDateArr);
+        addCatBtn('Registration', elem);
+        removeCatBtn(elem);
+        break;
+      case 'usergroup':
+      case 'menu--usergroup':
+        removeSiblings(rm);
+        DdCheckboxes.prototype.addDdCheckboxes(elem);
+       // obj.addDdCheckboxes(elem); // user ddCheckbox object
+        addRemoveBtn(elem);
+        removeRow(elem);
+        addCatBtn('User', elem);
+        removeCatBtn(elem);
+        break;
+      case 'menu--before':
+      case 'menu--after':
+      case 'menu--on':
+        obj.calendarDropdown(elem);
+        addRemoveBtn(elem);
+        removeRow(elem);
+        break;
+    }
+  },
+  createDropdownLiArr: function(liId, liText) {
+    // create dropdown li
+    var obj = this;
+
+    liText = liText || liId;
+    var li = $('<li/>');
+    var liLink = $('<a/>')
+        .attr('id', 'menu--'+liId)
+        .text(liText);
+    liLink.appendTo(li);
+    return li;
+  },
+  createInnerDropdown: function(liItems, spanTxt, ulClass) {
+    // create inner ul.dropdown structure
+    ulClass = ulClass || 'dropdown gradient-gray-bg';
+    spanTxt = spanTxt || 'Choose:';
+    liItems = liItems || '';
+
+    var obj = this;
+
+    var div = $('<div/>')
+        .addClass(ulClass);
+    var span = $('<span/>')
+        .text(spanTxt);
+    var list = $('<ul/>')
+        .addClass('dropdown__menu');
+    var li = '';
+
+    if (liItems.length > 1) {
+      $.each(liItems, function(i){
+        obj.createDropdownLiArr(this).appendTo(list);
+      });
+    } else if (ulClass === 'dropdown dropdown--user-options gradient-gray-bg') {
+      var wrap = $('<div/>')
+      .addClass('dd-checkboxes');
+      li = $('<li/>')
+      .addClass('li-checkboxes');
+
+      ddCheckAll().appendTo(wrap);
+      // loop through 3 groups
+      for (var i=1; i<4; i++) {
+        ddCheckGroup([i]).appendTo(wrap);
+      }
+      wrap.appendTo(li);
+      li.appendTo(list);
+    } else {
+      li = $('<li/>');
+      var datepicker = $('<div/>')
+          .addClass('datepicker-here')
+          .attr('data-language', 'en');
+
+      datepicker.appendTo(li);
+      li.appendTo(list);
+    }
+
+    span.appendTo(div);
+    list.appendTo(div);
+    return div;
+  },
+  calendarDropdown: function(el) {
+    // dropdown for calendar
+    var obj = this;
+
+    var div = obj.createInnerDropdown('', 'Choose: date');
+
+    div.appendTo(el);
+
+    $('.datepicker-here').datepicker({
+      onSelect: function onSelect(fd) {
+        div.find('span').text(fd);
+      }
+    });
+  },
+  addDdCheckboxes: function(el) {
+    // create dropdown checkboxes
+    // for usergroup
+    var obj = this;
+
+    var div = obj
+        .createInnerDropdown('', 'Select one or more', 
+          'dropdown dropdown--user-options gradient-gray-bg');
+
+    div.appendTo(el);
+  },
+  addDropDown: function(el, items) {
+    // create dropdown ul
+    var obj = this;
+
+    var div = obj.createInnerDropdown(items);
+
+    div.appendTo(el);
+  },
+  addRow: function() {
+    // add row when button clicked
+    var obj = this;
+    var i = 1;
+    obj.dd.on('click','button.btn--green' , function() {
+      createRow(i).appendTo('.advanced-search__select-area'); // refactor 
+      i++;
+    });
+  },
+  removeRowsBtns: function() {
+    // remove all category buttons
+    // and rows
+    var obj = this;
+    obj.dd.on('click','#remove-all' , function() {
+      obj.dd.find('.categories-wrap li').remove();
+      obj.dd.find('.advanced-search__select-row').remove();
+    });
+  },
+};
+
+function DdCheckboxes(el) {
+  this.ddCh = el;
+  this.init();
+}
+
+// need to refactor DdCheckboxes
+
+//maybe create row object
+DdCheckboxes.prototype = {
+  init: function() {
+    var obj = this;
+    obj.ddCheckAll();
+    obj.ddUncheckAll();
+  },
+  addDdCheckboxes: function(elem) {
+    // create dropdown checkboxes
+    // for usergroup
+    var obj = this;
+
+    // var div = obj
+    //     .createInnerDropdown('', 'Select one or more', 
+    //       'dropdown dropdown--user-options gradient-gray-bg');
+
+    // div.appendTo(el);
+    var div = $('<div/>')
+        .addClass('dropdown dropdown--user-options gradient-gray-bg');
+    var wrap = $('<div/>')
+        .addClass('dd-checkboxes');
+    var span = $('<span>Choose:</span>'); // refactor later
+    var list = $('<ul/>')
+        .addClass('dropdown__menu');
+    var li = $('<li/>')
+        .addClass('li-checkboxes');
+
+    obj.ddCheckAllDiv().appendTo(wrap);
+    // loop through 3 groups
+    for (var i = 1; i < 4; i++) {
+        obj.ddCheckGroup([i]).appendTo(wrap);
+    }
+    wrap.appendTo(li);
+    li.appendTo(list);
+    list.appendTo(div);
+    span.appendTo(div);
+
+    div.appendTo(elem);
+  },
+  ddCheckGroup: function(num) {
+    // create checkboxes group
+    var obj = this;
+
+    var divGroup = $('<div/>')
+        .addClass('dd-checkboxes__group');
+    var pTag = $('<p/>')
+        .text('Group '+ num)
+        .appendTo(divGroup);
+
+    // loop through 3 groups
+    for (var i=1; i<4; i++) {
+      obj.ddCheckbox(num, [i]).appendTo(divGroup);
+    }
+
+    return divGroup;
+  },
+  ddCheckbox: function(group, check) {
+    // create actual checkbox
+    var obj = this;
+    var divCheckbox = $('<div/>')
+        .addClass('group__checkbox');
+    var chkbox = $('<input type="checkbox">')
+        .attr('id', 'group'+group+'__checkbox-'+check)
+        .appendTo(divCheckbox);
+    var label = $('<label/>')
+        .attr('for', 'group'+group+'__checkbox-'+check)
+        .text('Option #'+check+'for group'+group)
+        .appendTo(divCheckbox);
+    return divCheckbox;
+  },
+  ddCheckAllDiv: function() {
+    // create check all links
+    // for dropdown checkboxes
+    var obj = this;
+
+    var divCheck = $('<div/>')
+        .addClass('dd-check-links');
+    var checkLink = $('<a/>')
+        .attr('id', 'dd-check-all')
+        .text('Check all').appendTo(divCheck);
+    var uncheckLink = $('<a/>')
+        .attr('id', 'dd-uncheck-all')
+        .text('Uncheck all').appendTo(divCheck);
+
+    return divCheck;
+  },
+  ddCheckAll: function(){
+    // Check all checkboxes in 
+    // dropdownlist
+    $('.content').on('click','#dd-check-all', function(e) {
+      $(".dd-checkboxes__group input:checkbox").prop('checked', true);
+    });
+  },
+  ddUncheckAll: function(){
+    // Uncheck all checkboxes in 
+    // dropdownlist
+    $('.content').on('click','#dd-uncheck-all', function(e) {
+      $(".dd-checkboxes__group input:checkbox").prop('checked', false);
     });
   }
 };
