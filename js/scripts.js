@@ -239,6 +239,15 @@ function removeCatBtn(el) {
   });
 }
 
+// remove all category buttons
+// and rows
+function removeRowsBtns() {
+  $('.content').on('click','#remove-all' , function() {
+    $('.content').find('.categories-wrap li').remove();
+    $('.content').find('.advanced-search__select-row').remove();
+  });
+}
+
 // function to decide which 
 // dropdown to create
 function whichDropdown(ddId, elem, rm) {
@@ -335,6 +344,7 @@ $(".search-results-td input:checkbox").on('change',function () {
 $(function() {
   var dd = new DropDown($('.content'));
   addRow();
+  removeRowsBtns();
 });
 
 function DropDown(el) {
