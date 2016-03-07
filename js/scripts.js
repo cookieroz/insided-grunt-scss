@@ -1,6 +1,5 @@
 // TODOS
 // create category button object
-// create results checkbox object
 // REFACTOR!
 
 // create category button
@@ -33,49 +32,6 @@ function removeCatBtn(el) {
     $(this).parent().remove();
   });
 }
-
-
-// function to add/remove class 
-// on grandparent element if 
-// checkbox is checked
-function ifChecked(el, rowClass, highlight) {
-  var $check = $(el),
-        $div = $check.closest(rowClass);
-
-  if ($check.prop('checked')) {
-    $div.addClass(highlight);
-  } else {
-    $div.removeClass(highlight);
-  }
-}
-
-// function to show/hide results footer
-// if at least one checkbox is checked
-function unlessNoneChecked(ele, removeEl) {
-  var $checkedCount = $(ele),
-      $div = $(removeEl);
-
-  if ($checkedCount.length === 0) {
-    $div.hide();   
-  } else {
-    $div.show();
-  }
-}
-
-// checkmark all user results
-// add highlight class
-$("#search-results__checkbox-all").on('change',function () {
-  $(".search-results-td input:checkbox").prop('checked', $(this).prop("checked"));
-  unlessNoneChecked('.search-results-td input:checkbox:checked', '.search-results__footer');
-  ifChecked('.search-results-td input:checkbox', '.search-results__row', 'checked-row');
-});
-
-// check for checkbox changes
-// add highlight class
-$(".search-results-td input:checkbox").on('change',function () {
-  ifChecked(this, '.search-results__row', 'checked-row');
-  unlessNoneChecked('.search-results-td input:checkbox:checked', '.search-results__footer');
-});
 
 
 // create new objects
@@ -254,6 +210,8 @@ DdCheckbox.prototype = {
     var obj = this;
     obj.ddCheckAll();
     obj.ddUncheckAll();
+    obj.checkboxAllResults();
+    obj.checkboxResults();
   },
   addDdCheckboxes: function(elem) {
     // create dropdown checkboxes
@@ -345,6 +303,52 @@ DdCheckbox.prototype = {
 
     obj.ddCh.on('click','#dd-uncheck-all', function(e) {
       $(".dd-checkboxes__group input:checkbox").prop('checked', false);
+    });
+  },
+  ifChecked: function(el, rowClass, highlight) {
+    // function to add/remove class 
+    // on grandparent element if 
+    // checkbox is checked
+    var $check = $(el),
+          $div = $check.closest(rowClass);
+
+    if ($check.prop('checked')) {
+      $div.addClass(highlight);
+    } else {
+      $div.removeClass(highlight);
+    }
+  },
+  unlessNoneChecked: function(ele, removeEl) {
+    // function to show/hide results footer
+    // if at least one checkbox is checked
+    var $checkedCount = $(ele),
+        $div = $(removeEl);
+
+    if ($checkedCount.length === 0) {
+      $div.hide();   
+    } else {
+      $div.show();
+    }
+  },
+  checkboxAllResults: function() {
+    // checkmark all user results
+    // add highlight class REFACTOR
+    var obj = this;
+
+    $("#search-results__checkbox-all").on('change',function () {
+      $(".search-results-td input:checkbox").prop('checked', $(this).prop("checked"));
+      obj.unlessNoneChecked('.search-results-td input:checkbox:checked', '.search-results__footer');
+      obj.ifChecked('.search-results-td input:checkbox', '.search-results__row', 'checked-row');
+    });
+  },
+  checkboxResults: function() {
+    // check for checkbox changes
+    // add highlight class REFACTOR
+    var obj = this;
+
+    $(".search-results-td input:checkbox").on('change',function () {
+      obj.ifChecked(this, '.search-results__row', 'checked-row');
+      obj.unlessNoneChecked('.search-results-td input:checkbox:checked', '.search-results__footer');
     });
   }
 };
