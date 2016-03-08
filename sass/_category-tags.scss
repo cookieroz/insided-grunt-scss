@@ -1,5 +1,6 @@
 /* start tag styles */
 .advanced-search__middle {
+  @include clearfix;
   clear: both;
   margin: 2% 3% 1% 1%;
 }

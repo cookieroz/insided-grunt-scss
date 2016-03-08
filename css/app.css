@@ -336,7 +336,15 @@ nav.top-bar__user-nav,
   .advanced-search h4 {
     font-weight: bold; }
   .advanced-search .advanced-search__select-row {
+    zoom: 1;
     padding: 0.5em 0; }
+    .advanced-search .advanced-search__select-row:after {
+      content: "";
+      display: block;
+      clear: both;
+      visibility: hidden;
+      line-height: 0;
+      height: 0; }
     .advanced-search .advanced-search__select-row .dropdown {
       margin-right: 0.4em; }
   .advanced-search .select-row-wrap {
@@ -391,7 +399,15 @@ nav.top-bar__user-nav,
   padding: 1em; }
 
 .advanced-search__pagination {
+  zoom: 1;
   float: right; }
+  .advanced-search__pagination:after {
+    content: "";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0; }
 
 .advanced-search__pagination .dropdown {
   font-size: 0.9em;
@@ -401,8 +417,16 @@ nav.top-bar__user-nav,
 
 /* start tag styles */
 .advanced-search__middle {
+  zoom: 1;
   clear: both;
   margin: 2% 3% 1% 1%; }
+  .advanced-search__middle:after {
+    content: "";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0; }
 
 .advanced-search__categories {
   float: left; }
@@ -533,10 +557,18 @@ a.search-results__user-icon {
 
 /* end tabular data styles */
 .search-results__footer {
+  zoom: 1;
   border-left: 1px solid #c5c5c5;
   border-right: 1px solid #c5c5c5;
   display: none;
   width: 100%; }
+  .search-results__footer:after {
+    content: "";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0; }
   .search-results__footer .dropdown {
     padding: 0.75em 0.9em;
     width: 12em; }
@@ -579,7 +611,15 @@ body {
   width: 82%; }
 
 footer {
+  zoom: 1;
   margin: 0 3% 1% 1%; }
+  footer:after {
+    content: "";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0; }
 
 /* end main content styles */
 /* reusable classes */
@@ -627,17 +667,6 @@ footer {
 
 .left-text-align {
   text-align: left; }
-
-.clearfix {
-  zoom: 1; }
-
-.clearfix:after {
-  content: "";
-  display: block;
-  clear: both;
-  visibility: hidden;
-  line-height: 0;
-  height: 0; }
 
 .gradient-gray-bg {
   background-color: #f3f3f3;

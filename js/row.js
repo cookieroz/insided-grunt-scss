@@ -40,7 +40,7 @@ Row.prototype = {
   createRow: function(num) {
     // function to create row element and initial .dropdown item
     var row = $('<div/>')
-        .addClass('advanced-search__select-row clearfix');
+        .addClass('advanced-search__select-row');
     var dd = DropDown.prototype.createDdDiv();
     var rowWrap = $('<div/>')
         .addClass('select-row-wrap');

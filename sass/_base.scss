@@ -2,21 +2,47 @@
 $font-base-px: 14px !default;
 
 // Color variables
-$topbar-blue: #1dadf5;
-$topbar-black: #111111;
+// Grays
+$dropdown-disable-gray: #959595;
+$table-bg-gray: #f4f4f4;
+$light-gray: #dddddd;
+$font-dark-gray: #333333;
 $pale-gray-bg: #f8f8f8;
 $gray-border: #c5c5c5;
+$gradient-gray: #f3f3f3;
+
+// Blues
+$topbar-blue: #1dadf5;
+$light-blue-bg: #ebf8fe;
+$hover-blue: #2caff3;
+
+// Buttons
 $red-btn: #df735e;
 $green-btn: #9ccb3d;
 $blue-btn: #27bcf5;
-$red-link: #d9604c;
-$light-blue-bg: #ebf8fe;
-$hover-blue: #2caff3;
+
+// Whites
 $white: #ffffff;
-$gradient-gray: #f3f3f3;
-$light-gray: #dddddd;
-$font-dark-gray: #333333;
 $dropdown-bg-white: #fafafa;
-$dropdown-disable-gray: #959595;
-$table-bg-gray: #f4f4f4;
+
+$topbar-black: #111111;
+
+$red-link: #d9604c;
+
+
+// Clearfix mixin
+@mixin clearfix {
+  zoom:1;
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+  }
+}
+
+
+
 

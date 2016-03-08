@@ -1,4 +1,5 @@
 .search-results__footer {
+  @include clearfix;
   border-left: 1px solid $gray-border;
   border-right: 1px solid $gray-border;
   display: none;
