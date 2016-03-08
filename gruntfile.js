@@ -52,7 +52,7 @@ module.exports = function (grunt) {
     },
     uglify: { // Begin JS Uglify Plugin
       build: {
-        src: ['src/*.js'],
+        src: ['js/app.js','js/ddCheckbox.js','js/dropdown.js','js/row.js'], 
         dest: 'js/script.min.js'
       }
     },
