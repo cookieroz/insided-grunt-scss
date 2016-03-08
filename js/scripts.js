@@ -1,10 +1,43 @@
+// create category button
+function createCatBtn(btnText, el) {
+  var li = $('<li/>');
+  var btn = $('<button/>')
+      .addClass('btn btn--gradient gradient-gray-bg');
+  var iconBtn = $('<i/>')
+      .addClass('fa fa-times')
+      .text(btnText);
+
+  iconBtn.appendTo(btn);
+
+  // connect button to row
+  btn.on('click', function() {
+    // remove row
+    el.parent().remove();
+  });
+  btn.appendTo(li);
+
+  return li;
+}
+
+// add category button
+function addCatBtn(txt, el) {
+  createCatBtn(txt, el).appendTo($('.categories-wrap ul'));
+}
+
+// remove category button
+function removeCatBtn(el) {
+  $('.content').on('click','.categories-wrap button' , function() {
+    $(this).parent().remove();
+  });
+}
+
+
 // create new objects
 $(function() {
   var contentElem = $('.content');
   var dd = new DropDown(contentElem);
   var ddCh = new DdCheckbox(contentElem);
   var r = new Row(contentElem);
-  var btn = new CatButton(contentElem);
 });
 
 function DropDown(el) {
@@ -21,10 +54,6 @@ function DdCheckbox(el) {
 function Row(el) {
   this.r = el;
   this.init();
-}
-
-function CatButton(el) {
-  this.btn = el;
 }
 
 // DropDown object
@@ -54,7 +83,6 @@ DropDown.prototype = {
       // check to see if it an li with 
       // checkboxes
       if (li.is('.li-checkboxes')) {
-        console.log(li.children().is('.dd-checkboxes'));
         e.stopPropagation();
       } else {
         // no checkboxes and continue building
@@ -85,8 +113,8 @@ DropDown.prototype = {
         obj.calendarDropdown(elem);
         Row.prototype.addRemoveBtn(elem);
         Row.prototype.removeRow(elem);
-        CatButton.prototype.addCatBtn('Registration', elem);
-        CatButton.prototype.removeCatBtn(elem);
+        addCatBtn('Registration', elem);
+        removeCatBtn(elem);
         break;
 
       // If it is to create a usergroup filter
@@ -96,8 +124,8 @@ DropDown.prototype = {
         DdCheckbox.prototype.addDdCheckboxes(elem);
         Row.prototype.addRemoveBtn(elem);
         Row.prototype.removeRow(elem);
-        CatButton.prototype.addCatBtn('User', elem);
-        CatButton.prototype.removeCatBtn(elem);
+        addCatBtn('User', elem);
+        removeCatBtn(elem);
         break;
     }
   },
@@ -381,46 +409,6 @@ Row.prototype = {
     dd.appendTo(rowWrap);
     rowWrap.appendTo(row);
     return row;
-  }
-};
-
-// Category Button Object
-CatButton.prototype = {
-  createCatBtn: function(btnText, el) {
-    // create category button
-    var li = $('<li/>');
-    var bttn = $('<button/>')
-        .addClass('btn btn--gradient gradient-gray-bg');
-    var iconBtn = $('<i/>')
-        .addClass('fa fa-times')
-        .text(btnText);
-
-    iconBtn.appendTo(bttn);
-
-    // connect button to row
-    bttn.on('click', function(){
-      // remove row when button is clicked
-      el.parent().remove();
-    });
-    bttn.appendTo(li);
-
-    return li;
-  },
-  addCatBtn: function(txt, el) {
-    // add category button
-    var obj = this;
-
-    obj.createCatBtn(txt, el).appendTo($('.categories-wrap ul'));
-  },
-  removeCatBtn: function(el) {
-    // remove category button
-    var obj = this;
-    console.log(obj.btn);
-
-    obj.btn.on('click','.categories-wrap button', function() {
-      $(this).parent().remove();
-      $(this).remove();
-    });
   }
 };
 
