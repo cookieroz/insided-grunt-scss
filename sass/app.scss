@@ -12,7 +12,7 @@
 // General layout
 body {
   font-family: Helvetica, arial, sans-serif;
-  font-size: 14px;
+  font-size: $font-base-px;
 }
 
 .wrapper {
@@ -24,7 +24,7 @@ body {
 
 /* start main content styles */
 .content {
-  background: #fff;
+  background: $white;
   float: right;
   width: 82%;
 }
@@ -42,46 +42,44 @@ footer {
 }
 
 .btn.remove {
-  background: #df735e;
-  border: #cb5841;
-  color: #ab4630;
+  background: $red-btn;
+  border: $red-btn-border;
+  color: $red-btn-text;
   cursor: pointer;
   display: inline;
   padding: 0.2em 0.6em;
   text-shadow: 0 1px 0 #DD5D4C;
 }
 
-/* make a button mixin */
-
 .btn {
   border-radius: 3px;
-  color: #fff;
+  color: $white;
   font-size: 0.9em;
   padding: 0.55em;
   text-shadow: 0px 2px 3px rgba(255,255,255,0.3);
 }
 
 .btn--gradient {
-  background: #f4f4f4;
-  border: 1px solid #c5c5c5;
-  color: #333;
+  background: $table-bg-gray;
+  border: 1px solid $gray-border;
+  color: $font-dark-gray;
   font-size: 0.95em;
   font-weight: bold;
   padding: 0.7em;
 }
 
 .btn--green {
-  background: #9ccb3d; 
-  border: 1px solid #78a81e;
+  background: $green-btn; 
+  border: 1px solid $green-btn-border;
 }
 
 .btn--blue {
-  background: #27bcf5; 
-  border: 1px solid #1697c5;
+  background: $blue-btn; 
+  border: 1px solid $blue-btn-border;
 }
 
 .red-link {
-  color: #d9604c;
+  color: $red-link;
   font-weight: 300;
   margin-left: 1em;
   text-decoration: none;
@@ -92,22 +90,22 @@ footer {
 }
 
 .gradient-gray-bg {
-  background-color: #f3f3f3;
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f3f3f3), to(#fff));
-  background: -webkit-linear-gradient(top, #fff, #f3f3f3);
-  background: -moz-linear-gradient(top, #fff, #f3f3f3);
-  background: -ms-linear-gradient(top, #fff, #f3f3f3);
-  background: -o-linear-gradient(top, #fff, #f3f3f3);
+  background-color: $gradient-gray;
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from($gradient-gray), to($white));
+  background: -webkit-linear-gradient(top, $white, $gradient-gray);
+  background: -moz-linear-gradient(top, $white, $gradient-gray);
+  background: -ms-linear-gradient(top, $white, $gradient-gray);
+  background: -o-linear-gradient(top, $white, $gradient-gray);
 }
 
 .disabled {
-  border-color: #dedede;
-  color: #ddd;
+  border-color: $disable-border-color;
+  color: $light-gray;
   pointer-events: none;
 }
 
 a.disabled {
-  color: #ddd;
+  color: $light-gray;
 }
 
 .hide {
