@@ -1,45 +1,10 @@
-// TODOS
-// create category button object
-// REFACTOR!
-
-// create category button
-function createCatBtn(btnText, el) {
-  var li = $('<li/>');
-  var btn = $('<button/>')
-      .addClass('btn btn--gradient gradient-gray-bg');
-  var iconBtn = $('<i/>')
-      .addClass('fa fa-times')
-      .text(btnText);
-
-  iconBtn.appendTo(btn);
-  btn.on('click', function(){
-    console.log(el);
-    el.parent().remove();
-  });
-  btn.appendTo(li);
-
-  return li;
-}
-
-// add category button
-function addCatBtn(txt, el) {
-  createCatBtn(txt, el).appendTo($('.categories-wrap ul'));
-}
-
-// remove category button
-function removeCatBtn(el) {
-  $('.content').on('click','.categories-wrap button' , function() {
-    $(this).parent().remove();
-  });
-}
-
-
 // create new objects
 $(function() {
   var contentElem = $('.content');
   var dd = new DropDown(contentElem);
   var ddCh = new DdCheckbox(contentElem);
   var r = new Row(contentElem);
+  var btn = new CatButton(contentElem);
 });
 
 function DropDown(el) {
@@ -58,12 +23,17 @@ function Row(el) {
   this.init();
 }
 
+function CatButton(el) {
+  this.btn = el;
+}
+
 // DropDown object
 DropDown.prototype = {
   initEvents : function() {
     var obj = this;
 
-    obj.dd.on('click', '.dropdown', function(event){
+    // Toggle showing dropdown menu
+    obj.dd.on('click', '.dropdown', function(event) {
       $(this).toggleClass('active');
       event.stopPropagation();
     }); 
@@ -81,10 +51,13 @@ DropDown.prototype = {
       var liText = li.text();
       var linkId = li.find('a').attr('id');
 
+      // check to see if it an li with 
+      // checkboxes
       if (li.is('.li-checkboxes')) {
         console.log(li.children().is('.dd-checkboxes'));
         e.stopPropagation();
       } else {
+        // no checkboxes and continue building
         e.preventDefault();
         span.text(liText);
         obj.whichDropdown(linkId, row, div);
@@ -97,29 +70,34 @@ DropDown.prototype = {
     var obj = this;
 
     switch (ddId) {
+      // If it is to create a registration filter
       case 'reg-date':
       case 'menu--reg-date':
         var whenDateArr = ['before', 'after', 'on'];
         obj.removeSiblings(rm);
         obj.addDropDown(elem, whenDateArr);
         break;
-      case 'usergroup':
-      case 'menu--usergroup':
-        obj.removeSiblings(rm);
-        DdCheckbox.prototype.addDdCheckboxes(elem);
-        Row.prototype.addRemoveBtn(elem);
-        Row.prototype.removeRow(elem);
-        addCatBtn('User', elem);
-        removeCatBtn(elem);
-        break;
+
+      // create second part filter for registration  
       case 'menu--before':
       case 'menu--after':
       case 'menu--on':
         obj.calendarDropdown(elem);
         Row.prototype.addRemoveBtn(elem);
         Row.prototype.removeRow(elem);
-        addCatBtn('Registration', elem);
-        removeCatBtn(elem);
+        CatButton.prototype.addCatBtn('Registration', elem);
+        CatButton.prototype.removeCatBtn(elem);
+        break;
+
+      // If it is to create a usergroup filter
+      case 'usergroup':
+      case 'menu--usergroup':
+        obj.removeSiblings(rm);
+        DdCheckbox.prototype.addDdCheckboxes(elem);
+        Row.prototype.addRemoveBtn(elem);
+        Row.prototype.removeRow(elem);
+        CatButton.prototype.addCatBtn('User', elem);
+        CatButton.prototype.removeCatBtn(elem);
         break;
     }
   },
@@ -142,13 +120,13 @@ DropDown.prototype = {
     return list;
   },
   createDdDiv: function() {
-    // create inner .dropdown ul.dropdown__menu 
+    // create div wrapper for .dropdown
     var div = $('<div/>')
         .addClass('dropdown gradient-gray-bg');
     return div;
   },
   createDdSpan: function(spanTxt) {
-    // create inner .dropdown ul.dropdown__menu 
+    // create span element for .dropdown 
     spanTxt = spanTxt || 'Choose:';
     var span = $('<span/>')
         .text(spanTxt);
@@ -174,8 +152,10 @@ DropDown.prototype = {
 
     div.appendTo(el);
 
+    // initialize datepicker
     $('.datepicker-here').datepicker({
       onSelect: function onSelect(fd) {
+        // put selected date to span text
         span.text(fd);
       }
     });
@@ -197,25 +177,26 @@ DropDown.prototype = {
     div.appendTo(el);
   },
   removeSiblings: function(rs) {
-    // remove sibling dropdowns 
+    // remove sibling .dropdown 
     rs.siblings().remove();
   }
 };
 // End DropDown object
 
-// need to refactor DdCheckboxes
+
 // Dropdown Checkboxes object
 DdCheckbox.prototype = {
   init: function() {
     var obj = this;
-    obj.ddCheckAll();
-    obj.ddUncheckAll();
+    var theCheckboxes = '.dd-checkboxes__group input:checkbox';
+
+    obj.ddCheckUncheck('#dd-check-all', theCheckboxes, true);
+    obj.ddCheckUncheck('#dd-uncheck-all', theCheckboxes, false);
     obj.checkboxAllResults();
     obj.checkboxResults();
   },
   addDdCheckboxes: function(elem) {
-    // create dropdown checkboxes
-    // for usergroup
+    // create dropdown checkboxes for usergroup
     var obj = this;
 
     var div = DropDown.prototype.createDdDiv();
@@ -272,8 +253,7 @@ DdCheckbox.prototype = {
     return divCheckbox;
   },
   ddCheckAllDiv: function() {
-    // create check all links
-    // for dropdown checkboxes
+    // create check all links for dropdown checkboxes
     var obj = this;
 
     var divCheck = $('<div/>')
@@ -287,27 +267,16 @@ DdCheckbox.prototype = {
 
     return divCheck;
   },
-  ddCheckAll: function(){
-    // Check all checkboxes in 
-    // dropdownlist
+  ddCheckUncheck: function(id, boxes, tf){
+    // Check all checkboxes  or uncheck them
     var obj = this;
 
-    obj.ddCh.on('click','#dd-check-all', function(e) {
-      $(".dd-checkboxes__group input:checkbox").prop('checked', true);
-    });
-  },
-  ddUncheckAll: function(){
-    // Uncheck all checkboxes in 
-    // dropdownlist
-    var obj = this;
-
-    obj.ddCh.on('click','#dd-uncheck-all', function(e) {
-      $(".dd-checkboxes__group input:checkbox").prop('checked', false);
+    obj.ddCh.on('click', id, function(e) {
+      $(boxes).prop('checked', tf);
     });
   },
   ifChecked: function(el, rowClass, highlight) {
-    // function to add/remove class 
-    // on grandparent element if 
+    // function to add/remove class on grandparent element if 
     // checkbox is checked
     var $check = $(el),
           $div = $check.closest(rowClass);
@@ -319,8 +288,8 @@ DdCheckbox.prototype = {
     }
   },
   unlessNoneChecked: function(ele, removeEl) {
-    // function to show/hide results footer
-    // if at least one checkbox is checked
+    // function to show/hide results footer if at least one 
+    // checkbox is checked
     var $checkedCount = $(ele),
         $div = $(removeEl);
 
@@ -331,8 +300,7 @@ DdCheckbox.prototype = {
     }
   },
   checkboxAllResults: function() {
-    // checkmark all user results
-    // add highlight class REFACTOR
+    // checkmark all user results add highlight class 
     var obj = this;
 
     $("#search-results__checkbox-all").on('change',function () {
@@ -342,8 +310,8 @@ DdCheckbox.prototype = {
     });
   },
   checkboxResults: function() {
-    // check for checkbox changes
-    // add highlight class REFACTOR
+    // check for individual checkbox changes
+    // add highlight class 
     var obj = this;
 
     $(".search-results-td input:checkbox").on('change',function () {
@@ -368,13 +336,12 @@ Row.prototype = {
     var obj = this;
     var i = 1;
     obj.r.on('click','button.btn--green' , function() {
-      obj.createRow(i).appendTo('.advanced-search__select-area'); // refactor 
+      obj.createRow(i).appendTo('.advanced-search__select-area');  
       i++;
     });
   },
   removeRowsBtns: function() {
-    // remove all category buttons
-    // and rows
+    // remove all category buttons and rows
     var obj = this;
 
     obj.r.on('click','#remove-all' , function() {
@@ -396,7 +363,7 @@ Row.prototype = {
     });
   },
   createRow: function(num) {
-    // function to add row
+    // function to create row element and initial .dropdown item
     var row = $('<div/>')
         .addClass('advanced-search__select-row clearfix');
     var dd = DropDown.prototype.createDdDiv();
@@ -414,6 +381,46 @@ Row.prototype = {
     dd.appendTo(rowWrap);
     rowWrap.appendTo(row);
     return row;
+  }
+};
+
+// Category Button Object
+CatButton.prototype = {
+  createCatBtn: function(btnText, el) {
+    // create category button
+    var li = $('<li/>');
+    var bttn = $('<button/>')
+        .addClass('btn btn--gradient gradient-gray-bg');
+    var iconBtn = $('<i/>')
+        .addClass('fa fa-times')
+        .text(btnText);
+
+    iconBtn.appendTo(bttn);
+
+    // connect button to row
+    bttn.on('click', function(){
+      // remove row when button is clicked
+      el.parent().remove();
+    });
+    bttn.appendTo(li);
+
+    return li;
+  },
+  addCatBtn: function(txt, el) {
+    // add category button
+    var obj = this;
+
+    obj.createCatBtn(txt, el).appendTo($('.categories-wrap ul'));
+  },
+  removeCatBtn: function(el) {
+    // remove category button
+    var obj = this;
+    console.log(obj.btn);
+
+    obj.btn.on('click','.categories-wrap button', function() {
+      $(this).parent().remove();
+      $(this).remove();
+    });
   }
 };
 
