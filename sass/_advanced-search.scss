@@ -37,12 +37,6 @@
   .group-checkboxes {
     float: left;
     width: 16.5%;
-    
-    input[type="checkbox"],
-    label {
-      display: inline-block;
-      vertical-align: middle; // probably make mixin
-    }
   }
 
   .group__checkbox {
@@ -64,8 +58,17 @@
     background: none;
   }
 
-  .group__checkbox:hover {
-    background: $hover-blue;
+  .group__checkbox {
+    padding: 0.25em;
+
+    input[type="checkbox"],
+    label {
+      display: inline-block;
+      margin-right: 0.2em;
+      vertical-align: middle; // probably make mixin
+    }
+
+    &:hover {background: $hover-blue;}
   }
 
   .dd-checkboxes {

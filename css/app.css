@@ -354,10 +354,6 @@ nav.top-bar__user-nav,
   .advanced-search__checkboxes .group-checkboxes {
     float: left;
     width: 16.5%; }
-    .advanced-search__checkboxes .group-checkboxes input[type="checkbox"],
-    .advanced-search__checkboxes .group-checkboxes label {
-      display: inline-block;
-      vertical-align: middle; }
   .advanced-search__checkboxes .group__checkbox {
     padding: 0.25em; }
   .advanced-search__checkboxes .advanced-search__checkbox {
@@ -367,8 +363,15 @@ nav.top-bar__user-nav,
   color: #2caff3; }
 .dropdown--user-options.dropdown li:hover a {
   background: none; }
-.dropdown--user-options.dropdown li .group__checkbox:hover {
-  background: #2caff3; }
+.dropdown--user-options.dropdown li .group__checkbox {
+  padding: 0.25em; }
+  .dropdown--user-options.dropdown li .group__checkbox input[type="checkbox"],
+  .dropdown--user-options.dropdown li .group__checkbox label {
+    display: inline-block;
+    margin-right: 0.2em;
+    vertical-align: middle; }
+  .dropdown--user-options.dropdown li .group__checkbox:hover {
+    background: #2caff3; }
 .dropdown--user-options.dropdown li .dd-checkboxes {
   max-height: 14em;
   overflow: scroll; }
