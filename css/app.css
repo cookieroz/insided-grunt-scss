@@ -186,12 +186,6 @@ input[type=button] {
    (commented out as usage is rare, and the filter syntax messes with some pre-processors)
 .ie6 html {filter: expression(document.execCommand("BackgroundImageCache", false, true));}
 */
-/* let's clear some floats */
-.clearfix:after {
-  content: " ";
-  display: block;
-  clear: both; }
-
 /* top bar styles */
 .top-bar {
   background: #111111;
@@ -216,7 +210,6 @@ input[type=button] {
 
 .top-bar__logo img, .top-bar__logo p,
 .top-bar__user-name {
-  /* make this into a mixin */
   display: block;
   float: left; }
 
